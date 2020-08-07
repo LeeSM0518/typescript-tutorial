@@ -24,3 +24,5 @@ console.log(makeAndModel);
 let modelYear: (string | number)[] = pluck(taxi, ['model', 'year'])
 console.log(modelYear);
 
+let carProps: keyof Car;
+console.log(carProps);

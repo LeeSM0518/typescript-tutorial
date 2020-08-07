@@ -14,3 +14,5 @@ console.log(makeAndModel);
 // 유니언 타입의 배열: (string | number)[] 을 얻게 된다.
 var modelYear = pluck(taxi, ['model', 'year']);
 console.log(modelYear);
+var carProps;
+console.log(carProps);

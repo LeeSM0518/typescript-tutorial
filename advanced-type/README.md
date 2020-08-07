@@ -685,7 +685,7 @@ function pluck(o, propertyNames) {
 
 ```ts
 function pluck<T, K extends keyof T>(o: T, propertyNames: K[]): T[K][] {
-  return propertyNames.map(n => o[n]);
+    return propertyNames.map(n => o[n]);
 }
 
 interface Car {
@@ -693,18 +693,43 @@ interface Car {
     model: string;
     year: number;
 }
+
 let taxi: Car = {
     manufacturer: 'Toyota',
     model: 'Camry',
     year: 2014
 };
 
-// Manufacturer과 model은 둘 다 문자열 타입입니다,
+// Manufacturer과 model은 둘 다 문자열 타입입니다.
 // 그래서 둘 다 타이핑된 문자열 배열로 끌어낼 수 있습니다.
 let makeAndModel: string[] = pluck(taxi, ['manufacturer', 'model']);
+console.log(makeAndModel);
 
 // 만약 model과 year를 끌어내려고 하면,
-// 유니언 타입의 배열: (string | number)[] 을 얻게됩니다.
-let modelYear = pluck(taxi, ['model', 'year'])
+// 유니언 타입의 배열: (string | number)[] 을 얻게 된다.
+let modelYear: (string | number)[] = pluck(taxi, ['model', 'year'])
+console.log(modelYear);
 ```
 
+**실행 결과**
+
+```
+[ 'Toyota', 'Camry' ]
+[ 'Camry', 2014 ]
+```
+
+몇 가지 새로운 타입 연산자를 살펴보자.
+
+<br>
+
+첫 번째로 `keyof T` 는 **인덱스 타입 쿼리 연산자이다.** 
+
+```typescript
+let carProps: keyof Car; // {'manafacturer' | 'model' | 'year'}의 유니언
+```
+
+`Car` 에 `ownerAddress: string` 라는 또 다른 프로퍼티를 추가한다면, `keyof Car` 는 자동으로 `'manufacturer' | 'model' | 'year' | 'ownersAddress'` 로 업데이트된다.
+
+<br>
+
+두 번째 연산자는 **인덱스 접근 연산자** `T[K]` 이다. 
